@@ -45,6 +45,22 @@ public class UsersController {
 
      };
 
+     public Handler updateUser = (context) -> {
+         int id = Integer.parseInt(context.pathParam("id"));
+         Users change = gson.fromJson(context.body(), Users.class);
+
+         change = us.updateUser(change);
+         context.result(gson.toJson(change));
+
+     };
+
+     public Handler deleteUser = (context) -> {
+         int id = Integer.parseInt(context.pathParam("id"));
+         Users u = us.deleteUser(id);
+         context.result(gson.toJson(String.format("%suser was deleted", u)));
+     };
+
+
 
 
 

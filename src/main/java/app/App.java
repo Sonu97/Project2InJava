@@ -38,6 +38,8 @@ public class App {
         app.get("/users", uc.getAllUsers);
         app.get("/users/{id}", uc.getUsers);
         app.post("/users", uc.addUser);
+        app.put("/users/{id}", uc.updateUser);
+        app.delete("/users/{id}", uc.deleteUser);
 
     }
 

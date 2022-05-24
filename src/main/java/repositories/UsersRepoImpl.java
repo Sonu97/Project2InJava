@@ -94,11 +94,51 @@ public class UsersRepoImpl implements UsersRepo {
 
     @Override
     public Users updateUser(Users change) {
-        return null;
+        try{
+
+            String sql = "UPDATE users SET name = ?, email = ?, birth_date = ?, password = ? WHERE user_id = ? RETURNING *";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+
+            ps.setString(1, change.getName());
+            ps.setString(2, change.getEmail());
+            ps.setString(3, change.getBirthDate());
+            ps.setString(4, change.getPassword());
+            ps.setInt(5, change.getUserId());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return buildUser(rs);
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            return null;
+
     }
+
+
 
     @Override
     public Users deleteUser(int id) {
+        try {
+            String sql = "DELETE FROM users WHERE user_id = ? RETURNING *";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return buildUser(rs);
+            }
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
